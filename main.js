@@ -8,6 +8,9 @@ import { JuliaExplorer } from './Fractals/julia.js';
 import { enableZoom } from './Interactions/zoom.js';
 import { enablePan } from './Interactions/pan.js';
 
+import { showFractalInfo, setupModalClose } from './Information/modalHandler.js';
+
+
 let mandelbrotExplorer = null;
 let juliaExplorer = null;
 
@@ -27,6 +30,18 @@ const fractalSelect = document.getElementById('fractalSelect');
 const depthSlider = document.getElementById('depthSlider');
 const saveBtn = document.getElementById('saveBtn');
 const rotationSlider = document.getElementById('rotationSlider');
+const depthValue = document.getElementById('depthValue');
+const rotationValue = document.getElementById('rotationValue');
+
+depthSlider.addEventListener('input', () => {
+  depthValue.textContent = depthSlider.value;
+  renderFractal();
+});
+
+rotationSlider.addEventListener('input', () => {
+  rotationValue.textContent = rotationSlider.value;
+  fractalContainer.rotation = parseFloat(rotationSlider.value) * (Math.PI / 180);
+});
 
 
 function toggleZoomPan(enable) {
@@ -144,8 +159,10 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   rotationSlider.value = angle;
+  rotationValue.textContent = angle; 
   fractalContainer.rotation = angle * (Math.PI / 180);
 });
+
 
 
 saveBtn.addEventListener('click', () => {
@@ -156,5 +173,12 @@ saveBtn.addEventListener('click', () => {
   link.click();
 });
 
+setupModalClose();
+
+document.getElementById('infoBtn').addEventListener('click', () => {
+  const fractalType = document.getElementById('fractalSelect').value;
+  showFractalInfo(fractalType);
+});
 
 renderFractal();
+
