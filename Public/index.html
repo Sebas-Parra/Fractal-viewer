@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Visualizador de Fractales</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="ui">
+    <select id="fractalSelect">
+      <option value="sierpinski">Triángulo de Sierpinski</option>
+      <option value="koch">Curva de Koch</option>
+      <option value="fractalTree">Árbol Fractal</option>
+      <option value="mandelbrot">Conjunto de Mandelbrot</option>
+      <option value="julia">Conjunto de Julia</option>
+    </select>
+    <label>Profundidad: <input type="range" id="depthSlider" min="1" max="8" value="4" /></label>
+    <label>Rotación: <input type="range" id="rotationSlider" min="0" max="360" value="0" /></label>
+
+    <button id="saveBtn">Guardar Imagen</button>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
