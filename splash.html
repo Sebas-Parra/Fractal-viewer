@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractal Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #00ffff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .splash-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .logo {
+            width: 140px;
+            height: 140px;
+            background: #111;
+            border: 3px solid #00ffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 0 20px #00ffff,
+                0 0 40px #00ffff,
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            animation: neonPulse 2s infinite;
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-fallback {
+            font-size: 64px;
+            color: #00ffff;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff,
+                0 0 30px #00ffff;
+        }
+
+        .app-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff,
+                0 0 30px #00ffff,
+                0 0 40px #00ffff;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #00ff41;
+            text-shadow: 
+                0 0 5px #00ff41,
+                0 0 10px #00ff41;
+        }
+
+        .authors {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0080;
+            border-radius: 15px;
+            padding: 25px 35px;
+            min-width: 300px;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 128, 0.3),
+                inset 0 0 20px rgba(255, 0, 128, 0.1);
+        }
+
+        .authors h3 {
+            margin: 0 0 20px 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff0080;
+            text-shadow: 
+                0 0 10px #ff0080,
+                0 0 20px #ff0080;
+        }
+
+        .author-names {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ffffff;
+        }
+
+        .author-names div {
+            margin: 8px 0;
+            text-shadow: 
+                0 0 5px #ffffff,
+                0 0 10px #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .author-names div:hover {
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff;
+            transform: scale(1.05);
+        }
+
+        .loading {
+            position: absolute;
+            bottom: 40px;
+            font-size: 16px;
+            color: #00ff41;
+            text-shadow: 
+                0 0 5px #00ff41,
+                0 0 10px #00ff41;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px #00ffff,
+                    0 0 40px #00ffff,
+                    inset 0 0 20px rgba(0, 255, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px #00ffff,
+                    0 0 60px #00ffff,
+                    0 0 80px #00ffff,
+                    inset 0 0 30px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes textGlow {
+            0% { 
+                text-shadow: 
+                    0 0 10px #00ffff,
+                    0 0 20px #00ffff,
+                    0 0 30px #00ffff,
+                    0 0 40px #00ffff;
+            }
+            100% { 
+                text-shadow: 
+                    0 0 20px #00ffff,
+                    0 0 30px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 50px #00ffff,
+                    0 0 60px #00ffff;
+            }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <div class="logo">
+            <img id="logoImg" src="../assets/icon.png" alt="Fractal Viewer" onerror="showFallback()">
+            <div id="logoFallback" class="logo-fallback" style="display: none;">F</div>
+        </div>
+        
+        <div class="app-title">FRACTAL VIEWER</div>
+        <div class="subtitle">Visualizador Interactivo de Fractales</div>
+        
+        <div class="authors">
+            <h3>Desarrollado por:</h3>
+            <div class="author-names">
+                <div>Mateo García</div>
+                <div>Sebastian Parra</div>
+                <div>Luis Sagnay</div>
+                <div>Jefferson Yépez</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="loading">Cargando aplicación...</div>
+
+    <script>
+        function showFallback() {
+            document.getElementById('logoImg').style.display = 'none';
+            document.getElementById('logoFallback').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
