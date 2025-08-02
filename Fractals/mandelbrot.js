@@ -1,91 +1,68 @@
 import * as PIXI from 'https://cdn.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.mjs';
 
 export class MandelbrotExplorer {
-constructor(container, app, maxIterations = 100) {
-  this.container = container;
-  this.app = app;
+  constructor(container, app, maxIterations = 100) {
+    this.container = container;
+    this.app = app;
+    this.width = app.screen.width;
+    this.height = app.screen.height;
+    this.maxIterations = maxIterations;
+    this.zoom = 250;
+    this.offsetX = this.width / 2;
+    this.offsetY = this.height / 2;
 
-  this.width = app.screen.width;
-  this.height = app.screen.height;
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.ctx = this.canvas.getContext('2d');
 
-  this.maxIterations = maxIterations;
-  this.zoom = 250;
-  this.offsetX = this.width / 2;
-  this.offsetY = this.height / 2;
+    this.sprite = PIXI.Sprite.from(this.canvas);
+    this.sprite.x = -this.width / 2 + this.offsetX;
+    this.sprite.y = -this.height / 2 + this.offsetY;
+    this.container.addChild(this.sprite);
 
-  this.graphics = new PIXI.Graphics();
-this.graphics.x = -this.width / 2 + this.offsetX;
-this.graphics.y = -this.height / 2 + this.offsetY;
+    this.render();
+  }
 
+  render(newMaxIterations) {
+    if (newMaxIterations) this.maxIterations = newMaxIterations;
 
-  this.container.addChild(this.graphics);
+    const imageData = this.ctx.createImageData(this.width, this.height);
+    const data = imageData.data;
 
-  this.render();
-}
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        let zx = 0, zy = 0;
+        const cx = (x - this.offsetX) / this.zoom;
+        const cy = (y - this.offsetY) / this.zoom;
+        let i = 0;
 
+        while (zx * zx + zy * zy < 4 && i < this.maxIterations) {
+          const temp = zx * zx - zy * zy + cx;
+          zy = 2 * zx * zy + cy;
+          zx = temp;
+          i++;
+        }
 
-render(newMaxIterations) {
-  if (newMaxIterations) this.maxIterations = newMaxIterations;
-  this.graphics.clear();
+        const idx = (y * this.width + x) * 4;
+        const r = i === this.maxIterations ? 0 : i / this.maxIterations * 255;
+        const g = i === this.maxIterations ? 0 : i / (this.maxIterations * 1.5) * 255;
+        const b = i === this.maxIterations ? 0 : (0.5 + 0.5 * Math.sin(i)) * 255;
 
-  for (let x = 0; x < this.width; x++) {
-    for (let y = 0; y < this.height; y++) {
-      let zx = 0, zy = 0;
-      const cx = (x - this.offsetX) / this.zoom;
-      const cy = (y - this.offsetY) / this.zoom;
-      let i = 0;
-
-      while (zx * zx + zy * zy < 4 && i < this.maxIterations) {
-        const temp = zx * zx - zy * zy + cx;
-        zy = 2 * zx * zy + cy;
-        zx = temp;
-        i++;
+        data[idx] = r;
+        data[idx + 1] = g;
+        data[idx + 2] = b;
+        data[idx + 3] = 255; // Alpha
       }
-
-      const color = i === this.maxIterations
-        ? 0x000000
-        : PIXI.utils.rgb2hex([
-            i / this.maxIterations,
-            i / (this.maxIterations * 1.5),
-            0.5 + 0.5 * Math.sin(i),
-          ]);
-
-      this.graphics.beginFill(color);
-this.graphics.drawRect(x, y, 1, 1); 
-      this.graphics.endFill();
     }
+
+    this.ctx.putImageData(imageData, 0, 0);
+    this.sprite.texture.update(); // Actualiza el sprite
   }
-
-  let totalR = 0, totalG = 0, totalB = 0, count = 0;
-
-for (let x = 0; x < this.width; x++) {
-  for (let y = 0; y < this.height; y++) {
-    
-    if (i !== this.maxIterations) {
-      const r = i / this.maxIterations;
-      const g = i / (this.maxIterations * 1.5);
-      const b = 0.5 + 0.5 * Math.sin(i);
-      totalR += r;
-      totalG += g;
-      totalB += b;
-      count++;
-    }
-  }
-}
-
-const avgR = Math.floor((totalR / count) * 255);
-const avgG = Math.floor((totalG / count) * 255);
-const avgB = Math.floor((totalB / count) * 255);
-
-const colorHex = `#${avgR.toString(16).padStart(2, '0')}${avgG.toString(16).padStart(2, '0')}${avgB.toString(16).padStart(2, '0')}`;
-
-document.body.style.backgroundColor = colorHex;
-
-}
-
 
   destroy() {
-    this.container.removeChild(this.graphics);
-    this.graphics.destroy(true);
+    this.container.removeChild(this.sprite);
+    this.sprite.destroy();
   }
 }
+
