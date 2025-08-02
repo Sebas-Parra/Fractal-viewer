@@ -1,0 +1,13 @@
+# Crear un ícono básico
+# Como no podemos generar imágenes directamente, usa este comando para crear un ícono temporal
+# o descarga un ícono de fractal de internet
+
+# Para crear iconos rápidamente, puedes usar:
+# 1. ImageMagick: convert -size 256x256 xc:blue icon.png
+# 2. Usar un generador online de iconos
+# 3. Descargar un ícono libre de https://www.flaticon.com/ (busca "fractal")
+
+# Asegúrate de tener estos archivos en el directorio assets/:
+# - icon.png (256x256)
+# - icon.ico (para Windows)
+# - icon.icns (para macOS)
