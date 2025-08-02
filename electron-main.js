@@ -4,8 +4,41 @@ const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let splashWindow;
 
-function createWindow() {
+function createSplashWindow() {
+    // Create the splash screen window
+    splashWindow = new BrowserWindow({
+        width: 900,
+        height: 600,
+        frame: false,
+        alwaysOnTop: true,
+        transparent: true,
+        center: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true
+        }
+    });
+
+    splashWindow.loadFile('splash.html');
+
+    // Close splash screen after 3 seconds and show main window
+    setTimeout(() => {
+        if (splashWindow) {
+            splashWindow.close();
+            splashWindow = null;
+        }
+        createMainWindow();
+    }, 3000);
+
+    splashWindow.on('closed', () => {
+        splashWindow = null;
+    });
+}
+
+function createMainWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1200,
@@ -187,7 +220,7 @@ function createMenu() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(createWindow);
+app.whenReady().then(createSplashWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -199,7 +232,7 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) createWindow();
+    if (mainWindow === null) createMainWindow();
 });
 
 // You can include the rest of your app's main process code in this file.
