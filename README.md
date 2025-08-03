@@ -26,7 +26,7 @@ Una aplicación de escritorio para visualizar fractales construida con Electron.
 
 1. Clona el repositorio:
 ```bash
-git clone <tu-repositorio-url>
+git clone https://github.com/Sebas-Parra/Fractal-viewer.git
 cd Fractal-viewer
 ```
 
