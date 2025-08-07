@@ -1,10 +1,10 @@
 # Fractal Viewer - Aplicación de Escritorio
 
-Una aplicación de escritorio para visualizar fractales construida con Electron.js y PIXI.js.
+**Fractal Viewer** es una aplicación de escritorio interactiva para visualizar y explorar fractales clásicos, construida con [Electron](https://www.electronjs.org/) y [PIXI.js](https://pixijs.com/). Permite manipular parámetros visuales, guardar imágenes y obtener información educativa sobre cada fractal.
 
 ## Características
 
-- Visualización interactiva de múltiples tipos de fractales:
+- **Visualización interactiva de múltiples tipos de fractales:**
   - Triángulo de Sierpinski
   - Curva de Koch
   - Árbol Fractal
@@ -16,11 +16,20 @@ Una aplicación de escritorio para visualizar fractales construida con Electron.
 - Guardar imágenes
 - Información detallada sobre cada fractal
 
+## Capturas de Pantalla
+
+![alt text](assets/splash.png)
+![alt text](assets/triangle.png)
+![alt text](assets/tree.png)
+![alt text](assets/curve.png)
+![alt text](assets/maldelbrot.png)
+![alt text](assets/julia.png)
+
 ## Instalación y Ejecución
 
 ### Prerrequisitos
-- Node.js (versión 16 o superior)
-- Yarn package manager
+- [Node.js](https://nodejs.org/) (v16 o superior)
+- [Yarn](https://yarnpkg.com/) o [npm](https://www.npmjs.com/)
 
 ### Instalación
 
@@ -80,9 +89,8 @@ yarn build:linux  # Linux
 │   ├── modalHandler.js
 │   └── info.js
 ├── assets/            # Iconos y recursos
-├── src/  
-|   ├── main.js           # Lógica principal de la aplicación
-|   └── electron-main.js  # Proceso principal de Electron
+├── main.js           # Lógica principal de la aplicación
+├── electron-main.js  # Proceso principal de Electron
 └── package.json      # Configuración del proyecto
 ```
 
