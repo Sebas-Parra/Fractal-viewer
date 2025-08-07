@@ -80,8 +80,9 @@ yarn build:linux  # Linux
 │   ├── modalHandler.js
 │   └── info.js
 ├── assets/            # Iconos y recursos
-├── main.js           # Lógica principal de la aplicación
-├── electron-main.js  # Proceso principal de Electron
+├── src/  
+|   ├── main.js           # Lógica principal de la aplicación
+|   └── electron-main.js  # Proceso principal de Electron
 └── package.json      # Configuración del proyecto
 ```
 
