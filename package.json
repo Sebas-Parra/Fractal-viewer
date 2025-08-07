@@ -2,7 +2,7 @@
   "name": "fractal-viewer-electron",
   "version": "1.0.0",
   "description": "Fractals Viewer - Desktop App",
-  "main": "electron-main.js",
+  "main": "src/electron-main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
